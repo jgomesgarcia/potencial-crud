@@ -1,4 +1,4 @@
-CREATE TABLE User(
+CREATE TABLE IF NOT EXISTS User(
 	id int AUTO_INCREMENT not null,
     firstname varchar(100) not null,
     lastname varchar(100) not null,
@@ -8,24 +8,24 @@ CREATE TABLE User(
     creationDate  datetime default now(),
     modificationDate datetime default now(),
     isActive boolean default true,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     isAdmin boolean default false,
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE StatusList(
+CREATE TABLE IF NOT EXISTS StatusList(
 	id int AUTO_INCREMENT not null,
     title varchar(50) not null,
     details varchar(300),
     creationDate  datetime default now(),
     modificationDate datetime default now(),
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     idUser  int not null,
 	PRIMARY KEY (id),
 	FOREIGN KEY(idUser) REFERENCES User(id)
 );
 
-CREATE TABLE StatusItem (
+CREATE TABLE IF NOT EXISTS StatusItem (
 	id int AUTO_INCREMENT not null,
     title varchar(30) not null,
     colorHex char(7),
@@ -34,18 +34,18 @@ CREATE TABLE StatusItem (
     modificationDate datetime default now(),
     idStatusList int not null,
     isActive boolean default true,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     PRIMARY KEY (id),
 	FOREIGN KEY(idStatusList) REFERENCES StatusList(id)
 );
 
-CREATE TABLE Board (
+CREATE TABLE IF NOT EXISTS Board (
 	id int AUTO_INCREMENT not null,
     title varchar(50) not null,
     details varchar(300),
     creationDate  datetime default now(),
     modificationDate datetime default now(),
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     idStatusList int not null,
     idStatusItem int not null,
     idUser  int not null,
@@ -55,11 +55,11 @@ CREATE TABLE Board (
 	FOREIGN KEY(idStatusList) REFERENCES StatusItem(id)
 );
 
-CREATE TABLE Stage(
+CREATE TABLE IF NOT EXISTS Stage(
 	id int AUTO_INCREMENT not null,
     title varchar(50) not null,
     setTaskStatus boolean default false,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     idBoard int not null,
     idUser  int not null,
 	PRIMARY KEY (id),
@@ -67,7 +67,7 @@ CREATE TABLE Stage(
 	FOREIGN KEY(idBoard) REFERENCES Board(id)
 );
 
-CREATE TABLE Task (
+CREATE TABLE IF NOT EXISTS Task (
 	id int AUTO_INCREMENT not null,
     title varchar(30) not null,
     details  varchar(300),
@@ -82,7 +82,7 @@ CREATE TABLE Task (
     idStatusItem int not null,
     idUser  int not null,
     isActive boolean default true,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     hasEnd boolean default false,
 	PRIMARY KEY (id),
 	FOREIGN KEY(idUser) REFERENCES User(id),
@@ -91,27 +91,27 @@ CREATE TABLE Task (
 	FOREIGN KEY(idStatusList) REFERENCES StatusItem(id)
 );
 
-CREATE TABLE Tag(
+CREATE TABLE IF NOT EXISTS Tag(
 	id int AUTO_INCREMENT not null,
     title varchar(30) not null,
     colorHex char(7),
     creationDate  datetime default now(),
     modificationDate datetime default now(),
     isActive boolean default true,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     idUser  int not null,
 	PRIMARY KEY (id),
 	FOREIGN KEY(idUser) REFERENCES User(id)
 );
 
-CREATE TABLE Task_Tag (
+CREATE TABLE IF NOT EXISTS Task_Tag (
 	id int AUTO_INCREMENT not null,
     idTask int not null ,
     idTag int not null,
     creationDate  datetime default now(),
     modificationDate datetime default now(),
     isActive boolean default true,
-    isDeleted boolean default false,
+    deleteDate datetime default null,
     PRIMARY KEY (id),
     FOREIGN KEY(idTask) REFERENCES Task(id),
     FOREIGN KEY(idTag) REFERENCES Tag(id)
