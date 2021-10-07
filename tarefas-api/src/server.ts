@@ -9,7 +9,6 @@ import Task from './routes/Task'
 import User from './routes/User'
 const app = express();
 
-app.use('/', (req, res) => res.send('teste2'))
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}))
